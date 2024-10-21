@@ -13,5 +13,6 @@ export interface ILoginResponse {
   message: string;
   data: {
     access_token: string;
-  }
+    refresh_token: string;
+  };
 }

@@ -1,36 +1,18 @@
-// import { Injectable } from '@angular/core';
-// import { Observable } from 'rxjs';
-// import { IResponse, ITodo } from '../models/todo.model';
-// import { HttpClient } from '@angular/common/http';
-// import { apiEndpoint } from '../constants/constans';
+import { Injectable } from '@angular/core';
+import { ITodo } from '../models/todo.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class TodoService {
-//   constructor(private http: HttpClient) {}
+@Injectable({
+  providedIn: 'root',
+})
+export class TodoService {
+  private todosSubject = new BehaviorSubject<ITodo[]>([]);
+  todos$: Observable<ITodo[]> = this.todosSubject.asObservable();
 
-//   getAllTodo(status: string): Observable<IResponse<ITodo[]>> {
-//     let queryString = '';
-//     if (status !== '') {
-//       queryString = `status=${status}`;
-//     }
-//     return this.http.get<IResponse<ITodo[]>>(
-//       `${apiEndpoint.TodoEndpoint.getAllTodo}?${queryString}`
-//     );
-//   }
-
-//   addTodo(data: ITodo): Observable<IResponse<ITodo>> {
-//     return this.http.post<IResponse<ITodo>>(
-//       `${apiEndpoint.TodoEndpoint.addTodo}`,
-//       data
-//     );
-//   }
-
-//   updateTodo(id: number, data: ITodo): Observable<IResponse<ITodo>> {
-//     return this.http.put<IResponse<ITodo>>(
-//       `${apiEndpoint.TodoEndpoint.updateTodo}/${id}`,
-//       data
-//     );
-//   }
-// }
+  constructor() {
+    const todos = localStorage.getItem('todos') || '';
+    this.todosSubject.next(JSON.parse(todos))
+    console.log('---', todos);
+  }
+  
+}

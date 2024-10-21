@@ -8,50 +8,24 @@
     novalidate
   >
     <div class="form-group" [formGroup]="loginForm">
-      <label for="">Email Address</label>
-      <input
-        type="text"
-        placeholder="Email"
+      <tui-input
+        tuiHintContent="Type 5 letters or more"
         formControlName="username"
-        [class]="{
-          invalid:
-            loginForm.get('username')?.hasError('required') &&
-            loginForm.get('username')?.touched,
-          valid: loginForm.get('username')?.valid
-        }"
-      />
-      <div
-        *ngIf="
-          loginForm.get('username')?.hasError('required') &&
-          loginForm.get('username')?.touched
+        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCustomContent]="
+          loginForm.get('username')?.valid ? success : ''
         "
-        class="form-error"
       >
-        Email is required.
-      </div>
+        Email
+      </tui-input>
+      <ng-template #success>
+        <tui-icon icon="@tui.check" class="success tui-space_left-3" />
+      </ng-template>
     </div>
-    <div class="form-group">
-      <label for="">Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        formControlName="password"
-        [class]="{
-          invalid:
-            loginForm.get('password')?.hasError('required') &&
-            loginForm.get('password')?.touched,
-          valid: loginForm.get('password')?.valid
-        }"
-      />
-      <div
-        *ngIf="
-          loginForm.get('password')?.hasError('required') &&
-          loginForm.get('password')?.touched
-        "
-        class="form-error"
-      >
-        Password is required.
-      </div>
+    <div class="form-group my-2">
+      <tui-input formControlName="password" [tuiTextfieldCleaner]="true">
+        Password
+      </tui-input>
     </div>
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>

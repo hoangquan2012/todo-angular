@@ -9,11 +9,21 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import {TuiHint, TuiIcon} from '@taiga-ui/core';
+import {TuiInputModule, TuiTextfieldControllerModule} from '@taiga-ui/legacy';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TuiHint,
+    TuiIcon,
+    TuiInputModule,
+    TuiTextfieldControllerModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

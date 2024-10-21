@@ -87,6 +87,8 @@
       @if (todoForm.get('title')?.hasError('required') &&
       todoForm.get('title')?.touched) {
       <span class="form-error">Title is required.</span>
+      } @if (todoForm.get('title')?.hasError('minlength')) {
+      <span class="form-error">Must be at least 3 characters long.</span>
       }
     </div>
     <div class="form-group mb-3">
@@ -142,4 +144,6 @@
       </button>
     </div>
   </form>
+  <input #inputElement type="text" placeholder="Enter something" class="helo"/>
+  <button (click)="logInputValue()">Log Input</button>
 </app-slide-panel>
