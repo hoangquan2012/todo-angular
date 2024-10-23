@@ -12,7 +12,6 @@ export class TodoService {
   constructor() {
     const todos = localStorage.getItem('todos') || '';
     this.todosSubject.next(JSON.parse(todos))
-    console.log('---', todos);
   }
   
 }

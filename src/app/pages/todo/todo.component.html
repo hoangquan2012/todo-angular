@@ -47,6 +47,13 @@
     </button>
   </div>
 
+  <div class="mt-3">
+    <app-form-search
+      (searchTermEmitter)="onSearch($event)"
+      class="form-control"
+    ></app-form-search>
+  </div>
+
   <div class="mt-3 bg-white shadow">
     @for (item of todos | filter:filterByStatus; track $index) {
     <app-todo-card
@@ -57,93 +64,102 @@
     ></app-todo-card>
     }
   </div>
-</div>
-<app-slide-panel
-  [headerText]="'Todo Details'"
-  [isOpen]="isSlidePanelOpen"
-  (onClose)="onCloseSlidePanel()"
->
-  <form
-    [formGroup]="todoForm"
-    (ngSubmit)="onSubmit()"
-    autocomplete="off"
-    novalidate
-  >
-    <div class="form-group mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input
-        type="text"
-        id="title"
-        class="form-control"
-        [class]="{
-          invalid:
-            todoForm.get('title')?.hasError('required') &&
-            todoForm.get('title')?.touched,
-          valid: todoForm.get('title')?.valid
-        }"
-        placeholder="Title"
-        formControlName="title"
-      />
-      @if (todoForm.get('title')?.hasError('required') &&
-      todoForm.get('title')?.touched) {
-      <span class="form-error">Title is required.</span>
-      } @if (todoForm.get('title')?.hasError('minlength')) {
-      <span class="form-error">Must be at least 3 characters long.</span>
-      }
-    </div>
-    <div class="form-group mb-3">
-      <label for="description" class="form-label">Description</label>
 
-      <textarea
-        name=""
-        rows="10"
-        class="form-control"
-        [class]="{
-          invalid:
-            todoForm.get('description')?.hasError('required') &&
-            todoForm.get('description')?.touched,
-          valid: todoForm.get('description')?.valid
-        }"
-        placeholder="Description"
-        formControlName="description"
-      ></textarea>
-      @if (todoForm.get('description')?.hasError('required') &&
-      todoForm.get('description')?.touched) {
-      <span class="form-error">Description is required.</span>
-      }
-    </div>
-    <div class="form-group mb-3">
-      <label for="status" class="form-label">Status</label>
-      <select
-        class="form-select"
-        [class]="{
-          invalid:
-            todoForm.get('status')?.hasError('required') &&
-            todoForm.get('status')?.touched,
-          valid: todoForm.get('status')?.valid
-        }"
-        formControlName="status"
-      >
-        @for (item of todoStatus; track $index) {
-        <option [value]="item">{{ item }}</option>
+  <div class="mt-3">
+    <app-todo-history></app-todo-history>
+  </div>
+  <app-slide-panel
+    [headerText]="'Todo Details'"
+    [isOpen]="isSlidePanelOpen"
+    (onClose)="onCloseSlidePanel()"
+  >
+    <form
+      [formGroup]="todoForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off"
+      novalidate
+    >
+      <div class="form-group mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          [class]="{
+            invalid:
+              todoForm.get('title')?.hasError('required') &&
+              todoForm.get('title')?.touched,
+            valid: todoForm.get('title')?.valid
+          }"
+          placeholder="Title"
+          formControlName="title"
+        />
+        @if (todoForm.get('title')?.hasError('required') &&
+        todoForm.get('title')?.touched) {
+        <span class="form-error">Title is required.</span>
+        } @if (todoForm.get('title')?.hasError('minlength')) {
+        <span class="form-error">Must be at least 3 characters long.</span>
         }
-      </select>
-      @if (todoForm.get('status')?.hasError('required') &&
-      todoForm.get('status')?.touched) {
-      <span class="form-error">status is required.</span>
-      }
-    </div>
-    <div class="flex gap-2">
-      <button type="submit" class="btn btn-success">Submit</button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="onCloseSlidePanel()"
-      >
-        Cancel
-      </button>
-    </div>
-  </form>
-  <input #inputElement type="text" placeholder="Enter something" class="helo"/>
-  <button (click)="logInputValue()">Log Input</button>
-</app-slide-panel>
+      </div>
+      <div class="form-group mb-3">
+        <label for="description" class="form-label">Description</label>
+
+        <textarea
+          name=""
+          rows="10"
+          class="form-control"
+          [class]="{
+            invalid:
+              todoForm.get('description')?.hasError('required') &&
+              todoForm.get('description')?.touched,
+            valid: todoForm.get('description')?.valid
+          }"
+          placeholder="Description"
+          formControlName="description"
+        ></textarea>
+        @if (todoForm.get('description')?.hasError('required') &&
+        todoForm.get('description')?.touched) {
+        <span class="form-error">Description is required.</span>
+        }
+      </div>
+      <div class="form-group mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select
+          class="form-select"
+          [class]="{
+            invalid:
+              todoForm.get('status')?.hasError('required') &&
+              todoForm.get('status')?.touched,
+            valid: todoForm.get('status')?.valid
+          }"
+          formControlName="status"
+        >
+          @for (item of todoStatus; track $index) {
+          <option [value]="item">{{ item }}</option>
+          }
+        </select>
+        @if (todoForm.get('status')?.hasError('required') &&
+        todoForm.get('status')?.touched) {
+        <span class="form-error">status is required.</span>
+        }
+      </div>
+      <div class="flex gap-2">
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onCloseSlidePanel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+    <input
+      #inputElement
+      type="text"
+      placeholder="Enter something"
+      class="helo"
+    />
+    <button (click)="logInputValue()">Log Input</button>
+  </app-slide-panel>
+</div>
